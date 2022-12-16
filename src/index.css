@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+    html {
+        @apply h-full max-w-4xl min-w-[896px] bg-rose-700 font-manrope my-0 mx-auto;
+    }
+
+    body,
+    #root {
+        @apply w-full h-full;
+    }
+}
