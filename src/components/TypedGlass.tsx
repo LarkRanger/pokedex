@@ -1,21 +1,27 @@
-import cn from 'classnames';
-import { HTMLAttributes } from 'react';
+import { CSSProperties, HTMLAttributes } from 'react';
 import { Glass } from './Glass';
+import { typeColors } from 'utils';
 
 interface TypedGlassProps extends HTMLAttributes<HTMLDivElement> {
     primary: string;
     secondary?: string;
 }
 
-export function TypedGlass({ primary, secondary, children, className, ...props }: TypedGlassProps) {
+export function TypedGlass({ primary, secondary, children, ...props }: TypedGlassProps) {
     return (
-        <Glass className={cn(getTypedClassName(primary, secondary), className)} {...props}>
+        <Glass style={getTypeStyles(primary, secondary)} {...props}>
             {children}
         </Glass>
     );
 }
 
-function getTypedClassName(primary: string, secondary?: string) {
-    if (!secondary) return `!bg-${primary}`;
-    return `!bg-[linear-gradient(to_bottom_right,theme(colors.${primary})_0%_50%,theme(colors.${secondary})_50%)]`;
+const OPACITY = '99';
+function getTypeStyles(primary: string, secondary?: string): CSSProperties {
+    let background: string;
+    if (secondary)
+        background = `linear-gradient(to bottom right, ${typeColors[primary] + OPACITY} 0% 50%, ${
+            typeColors[secondary] + OPACITY
+        } 50%)`;
+    else background = typeColors[primary] + OPACITY;
+    return { background };
 }
