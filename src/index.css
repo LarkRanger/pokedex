@@ -1,10 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200&display=swap');
+@import url('https://github.com/Superpencil/pokemon-font/blob/master/fonts/pokemon-font.ttf');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @layer base {
     html {
-        @apply h-full max-w-4xl min-w-[896px] bg-rose-700 font-manrope my-0 mx-auto;
+        @apply h-full max-w-4xl min-w-[896px] bg-rose-700 my-0 mx-auto;
+        font-family: 'pokemon-font', monospace;
+        font-smooth: never;
     }
 
     body,
