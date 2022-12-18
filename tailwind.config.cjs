@@ -32,6 +32,10 @@ module.exports = {
             fontFamily: {
                 manrope: ['Manrope', 'Poppins', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif'],
             },
+            flexGrow: {
+                2: 2,
+                3: 3,
+            },
         },
     },
     plugins: [],

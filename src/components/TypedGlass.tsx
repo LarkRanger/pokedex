@@ -1,6 +1,6 @@
-import { CSSProperties, HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 import { Glass } from './Glass';
-import { typeColors } from 'utils';
+import { getTypeStyles } from 'utils';
 
 interface TypedGlassProps extends HTMLAttributes<HTMLDivElement> {
     primary: string;
@@ -13,15 +13,4 @@ export function TypedGlass({ primary, secondary, children, ...props }: TypedGlas
             {children}
         </Glass>
     );
-}
-
-const OPACITY = '99';
-function getTypeStyles(primary: string, secondary?: string): CSSProperties {
-    let background: string;
-    if (secondary)
-        background = `linear-gradient(to bottom right, ${typeColors[primary] + OPACITY} 0% 50%, ${
-            typeColors[secondary] + OPACITY
-        } 50%)`;
-    else background = typeColors[primary] + OPACITY;
-    return { background };
 }

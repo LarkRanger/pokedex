@@ -1,11 +1,11 @@
-import { usePokemon } from 'api';
+import { usePokemon, useTotal } from 'api';
 import cn from 'classnames';
 import { Button, Card, Chevron, Modal, TypedGlass } from 'components';
 import { usePageTitle } from 'hooks';
 import { Pokemon } from 'pokenode-ts';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { toTitleCase } from 'utils';
+import { toTitleCase, typeColors } from 'utils';
 
 export function ListingPage() {
     const navigate = useNavigate();
@@ -13,28 +13,34 @@ export function ListingPage() {
     const [open, setOpen] = useState<boolean>(false);
     const { id } = useParams();
     const { data } = usePokemon(Number(id));
+    const total = useTotal();
 
     usePageTitle(getPageTitle(data));
 
-    const onBack = () => navigate(-1);
+    const onBack = () => navigate(`/browse?from=${Math.floor(Number(id) / 20) * 20}`);
     const onLoad = () => setLoaded(true);
     const onClickImage = () => setOpen(true);
     const onCloseModal = () => setOpen(false);
-
+    const onClickNext = () => navigate(`/listing/${Number(id) + 1}`);
+    const onClickPrevious = () => navigate(`/listing/${Number(id) - 1}`);
     if (!data) return null;
+
+    const type1 = data.types.at(0)?.type.name!;
+    const type2 = data.types.at(1)?.type.name;
+
     return (
-        <div className="w-full h-full flex flex-col">
-            <section className="flex items-center gap-4 pt-16">
+        <div className="w-full h-full flex flex-col gap-2 items-center">
+            <section className="w-full flex items-center gap-4 pt-16">
                 <Button variant="icon" className="rotate-90" onClick={onBack}>
                     <Chevron />
                 </Button>
-                <h1 className="text-9xl font-bold">{toTitleCase(data.name)}</h1>
+                <h1 className="text-7xl font-bold">{toTitleCase(data.name)}</h1>
                 <TypedGlass
                     primary={data.types.at(0)?.type.name!}
                     secondary={data.types.at(1)?.type.name}
                     onClick={onClickImage}
                     className={cn(
-                        'grow flex justify-center hover:-translate-y-3 hover:shadow-2xl transition-all cursor-pointer',
+                        'h-32 grow flex justify-center hover:-translate-y-3 hover:shadow-2xl transition-all cursor-pointer',
                         {
                             invisible: !loaded,
                         }
@@ -43,7 +49,27 @@ export function ListingPage() {
                     <img src={data.sprites.front_default!} onLoad={onLoad} />
                 </TypedGlass>
             </section>
-            <section>
+            <section className="w-full flex justify-between">
+                <Button className={cn({ invisible: Number(id) === 1 })} onClick={onClickPrevious}>
+                    &lt; previous
+                </Button>
+                <Button className={cn({ invisible: Number(id) === total })} onClick={onClickNext}>
+                    next &gt;
+                </Button>
+            </section>
+
+            <section className="w-full flex justify-center gap-6">
+                <Singleton title={type2 ? 'Type 1' : 'Type'} content={type1} color={typeColors[type1]} />
+                {type2 && <Singleton title="Type 2" content={type2} color={typeColors[type2]} />}
+            </section>
+
+            <section className="w-2/3 grid grid-cols-3 gap-y-2 mt-10">
+                <Singleton title="species" content={data.species.name} />
+                <Singleton title="height" content={data.height.toString()} />
+                <Singleton title="weight" content={data.weight.toString()} />
+                {data.stats.map((stat) => (
+                    <Singleton title={stat.stat.name} content={stat.base_stat.toString()}></Singleton>
+                ))}
             </section>
 
             <Modal open={open} onClose={onCloseModal}>
@@ -81,4 +107,22 @@ function getSpriteArray(pokemon: Pokemon) {
         return acc;
     }, {});
     return Object.entries(spritesObject);
+}
+
+interface SingletonProps {
+    title: string;
+    content: string;
+    color?: string;
+}
+function Singleton({ title, content, color }: SingletonProps) {
+    return (
+        <div className="flex flex-col gap-2 items-center">
+            <h4 className="text-xl">{title}</h4>
+            <div className="flex gap-2">
+                <Card className="text-center" style={{ backgroundColor: color, minWidth: 82 }}>
+                    {content}
+                </Card>
+            </div>
+        </div>
+    );
 }
