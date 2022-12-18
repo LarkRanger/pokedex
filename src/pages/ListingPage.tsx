@@ -43,6 +43,9 @@ export function ListingPage() {
                     <img src={data.sprites.front_default!} onLoad={onLoad} />
                 </TypedGlass>
             </section>
+            <section>
+            </section>
+
             <Modal open={open} onClose={onCloseModal}>
                 <TypedGlass
                     className="grid grid-cols-3"
