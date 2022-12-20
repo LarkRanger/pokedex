@@ -63,13 +63,17 @@ export function ListingPage() {
                 <Singleton title="height" content={data.height.toString()} />
                 <Singleton title="weight" content={data.weight.toString()} />
                 {data.stats.map((stat) => (
-                    <Singleton title={stat.stat.name} content={stat.base_stat.toString()}></Singleton>
+                    <Singleton
+                        key={stat.stat.name}
+                        title={stat.stat.name}
+                        content={stat.base_stat.toString()}
+                    ></Singleton>
                 ))}
             </section>
 
             <Modal open={open} onClose={onCloseModal}>
                 <TypedGlass
-                    className="w-96 h-[450px] grid grid-cols-3 grid-rows-5"
+                    className="w-96 h-[460px] grid grid-cols-3 grid-rows-6"
                     primary={data.types.at(0)?.type.name!}
                     secondary={data.types.at(1)?.type.name}
                 >
