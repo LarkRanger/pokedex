@@ -30,8 +30,8 @@ function Overlay({ children, onClose }: OverlayProps) {
 
     useEffect(() => {
         gsap.timeline()
-            .to('.modal-overlay', { backgroundColor: '#00000088', duration: 0.05, ease: 'none' })
-            .fromTo('.modal-content', { scale: 0.9, duration: 0.1, ease: 'none' }, { opacity: 1 });
+            .to('.modal-overlay', { backgroundColor: '#00000088', duration: 0.05 })
+            .fromTo('.modal-content', { opacity: 0, scale: 0.8 }, { opacity: 1, duration: 0.1 });
     }, []);
 
     return (

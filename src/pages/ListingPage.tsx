@@ -29,7 +29,7 @@ export function ListingPage() {
     const type2 = data.types.at(1)?.type.name;
 
     return (
-        <div className="w-full h-full flex flex-col gap-2 items-center">
+        <div className="w-full h-full flex flex-col gap-2 items-center px-4">
             <section className="w-full flex items-center gap-4 pt-16">
                 <Button variant="icon" className="rotate-90" onClick={onBack}>
                     <Chevron />
@@ -39,14 +39,9 @@ export function ListingPage() {
                     primary={data.types.at(0)?.type.name!}
                     secondary={data.types.at(1)?.type.name}
                     onClick={onClickImage}
-                    className={cn(
-                        'h-32 grow flex justify-center hover:-translate-y-3 hover:shadow-2xl transition-all cursor-pointer',
-                        {
-                            invisible: !loaded,
-                        }
-                    )}
+                    className="h-32 grow flex justify-center hover:-translate-y-3 hover:shadow-2xl transition-all cursor-pointer"
                 >
-                    <img src={data.sprites.front_default!} onLoad={onLoad} />
+                    <img className={cn({ hidden: !loaded })} src={data.sprites.front_default!} onLoad={onLoad} />
                 </TypedGlass>
             </section>
             <section className="w-full flex justify-between">
@@ -74,7 +69,7 @@ export function ListingPage() {
 
             <Modal open={open} onClose={onCloseModal}>
                 <TypedGlass
-                    className="grid grid-cols-3"
+                    className="w-96 h-[450px] grid grid-cols-3 grid-rows-5"
                     primary={data.types.at(0)?.type.name!}
                     secondary={data.types.at(1)?.type.name}
                 >
