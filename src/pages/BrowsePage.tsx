@@ -1,6 +1,6 @@
 import { usePageTitle } from 'hooks';
 import { usePokemonList } from 'api';
-import { Button, Chevron, Glass } from 'components';
+import { Button, Chevron, Glass, Scroll } from 'components';
 import cn from 'classnames';
 import gsap from 'gsap';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -70,22 +70,26 @@ export function BrowsePage() {
                     <Chevron />
                 </Button>
             </div>
-            <div className="h-full w-2/3 flex flex-col gap-2 items-center justify-between overflow-auto">
-                {!isFetching
-                    ? data?.list?.map((p, i) => (
-                          <Glass
-                              key={p.id}
-                              onClick={handleClick(i)}
-                              className={cn(
-                                  'w-2/3 flex gap-2 hover:bg-opacity-100 transition-all select-none opacity-0 cursor-pointer',
-                                  LISTING_CLASS_NAME
-                              )}
-                          >
-                              <div className="w-1/3 text-right">#{p.id}</div>
-                              {toTitleCase(p.name)}
-                          </Glass>
-                      ))
-                    : null}
+            <div className="h-full w-2/3">
+                <Scroll>
+                    <div className="h-full w-full flex flex-col gap-2 items-center justify-between">
+                        {!isFetching
+                            ? data?.list?.map((p, i) => (
+                                  <Glass
+                                      key={p.id}
+                                      onClick={handleClick(i)}
+                                      className={cn(
+                                          'w-2/3 flex gap-2 hover:bg-opacity-100 transition-all select-none opacity-0 cursor-pointer',
+                                          LISTING_CLASS_NAME
+                                      )}
+                                  >
+                                      <div className="w-1/3 text-right">#{p.id}</div>
+                                      {toTitleCase(p.name)}
+                                  </Glass>
+                              ))
+                            : null}
+                    </div>
+                </Scroll>
             </div>
             <div className="h-full grow flex items-center justify-center">
                 <Button variant="icon" className="-rotate-90" onClick={onNext} disabled={!data?.next}>

@@ -5,3 +5,4 @@ export * from './icons';
 export * from './Loader';
 export * from './TypedGlass';
 export * from './Modal';
+export * from './Scroll';
